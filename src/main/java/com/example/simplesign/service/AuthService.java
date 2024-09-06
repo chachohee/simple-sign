@@ -1,9 +1,12 @@
 package com.example.simplesign.service;
 
+import com.example.simplesign.dto.LoginDto;
+import com.example.simplesign.dto.LoginResponseDto;
 import com.example.simplesign.dto.ResponseDto;
 import com.example.simplesign.dto.SignUpDto;
 import com.example.simplesign.entity.UserEntity;
 import com.example.simplesign.repository.UserRepository;
+import com.example.simplesign.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
+    // 회원가입
     public ResponseDto<?> signUp(SignUpDto dto) {
         System.out.println("SignUpDto:" + dto.toString());
 
@@ -49,5 +53,44 @@ public class AuthService {
         }
 
         return ResponseDto.setSuccess("회원 생성에 성공했습니다.");
+    }
+
+    // 로그인
+    public ResponseDto<LoginResponseDto> login(LoginDto dto) {
+        String email = dto.getEmail();
+        String password = dto.getPassword();
+
+        try {
+            // 사용자 id/password 일치하는지 확인
+            boolean existed = userRepository.existsByEmailAndPassword(email, password);
+            if(!existed) {
+                return ResponseDto.setFailed("입력하신 로그인 정보가 존재하지 않습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseDto.setFailed("데이터베이스 연결에 실패하였습니다.");
+        }
+
+        UserEntity userEntity = null;
+
+        try {
+            // 값이 존재하는 경우 사용자 정보 불러옴 (기준 email)
+            userEntity = userRepository.findById(email).get();
+        } catch (Exception e) {
+            return ResponseDto.setFailed("데이터베이스 연결에 실패하였습니다.");
+        }
+
+        userEntity.setPassword("");
+
+        int exprTime = 3600;     // 1h
+        TokenProvider tokenProvider = null;
+        String token = tokenProvider.createJwt(email, exprTime);
+
+        if(token == null) {
+            return ResponseDto.setFailed("토큰 생성에 실패하였습니다.");
+        }
+
+        LoginResponseDto loginResponseDto = new LoginResponseDto(token, exprTime, userEntity);
+
+        return ResponseDto.setSuccessData("로그인에 성공하였습니다.", loginResponseDto);
     }
 }

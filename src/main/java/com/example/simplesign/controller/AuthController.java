@@ -1,5 +1,6 @@
 package com.example.simplesign.controller;
 
+import com.example.simplesign.dto.LoginDto;
 import com.example.simplesign.dto.ResponseDto;
 import com.example.simplesign.dto.SignUpDto;
 import com.example.simplesign.service.AuthService;
@@ -23,6 +24,12 @@ public class AuthController {
     @PostMapping("/signUp")
     public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody) {
         ResponseDto<?> result = authService.signUp(requestBody);
+        return result;
+    }
+
+    @PostMapping("/login")
+    public ResponseDto<?> login(@RequestBody LoginDto requestBody) {
+        ResponseDto<?> result = authService.login(requestBody);
         return result;
     }
 }
