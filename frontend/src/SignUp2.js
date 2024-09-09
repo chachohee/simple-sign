@@ -65,7 +65,7 @@ function SignUp2() {
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
-        <Form.Group as={Col} md="4" controlId="validationCustom01">
+        <Form.Group as={Col} md="2" controlId="validationCustom01">
           <Form.Label>Username</Form.Label>
           <Form.Control
             required
@@ -95,7 +95,7 @@ function SignUp2() {
         </Form.Group>       
       </Row>
       <Row className="mb-3">
-        <Form.Group as={Col} md="3" controlId="validationCustom03">
+        <Form.Group as={Col} md="2" controlId="validationCustom03">
           <Form.Label>Password</Form.Label>
           <Form.Control 
             type="password" 
@@ -106,7 +106,7 @@ function SignUp2() {
             Please enter your password.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="3" controlId="validationCustom04">
+        <Form.Group as={Col} md="2" controlId="validationCustom04">
           <Form.Label>Password Check</Form.Label>
           <Form.Control 
             type="password"
@@ -129,7 +129,7 @@ function SignUp2() {
             </Form.Text>
           )}
         </Form.Group>
-        <Form.Group as={Col} md="5" controlId="validationCustom05">
+        <Form.Group as={Col} md="2" controlId="validationCustom05">
           <Form.Label>Phone Number</Form.Label>
           <Form.Control 
             type="text" 

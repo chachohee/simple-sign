@@ -23,9 +23,15 @@ public class TokenProvider {
             Instant now = Instant.now();
             Instant exprTime = now.plusSeconds(duration);
 
-            // JWT Claim 설정
-            // *Claim 집합 << 내용 설정 (페이로드 설정)
-            // subject << "sub", issuer << "iss", expiration time << "exp" ....
+            // JWTClaimsSet은 클레임을 저장하고 관리하는 역할을 하며, 토큰 내의 여러 클레임 값들을 포함합니다.
+            // 클레임은 사용자를 식별하거나 토큰의 유효성을 판단하는 데 중요한 정보들입니다.
+            // 	1.	표준 클레임:
+            //	•	iss (Issuer): 토큰 발급자
+            //	•	sub (Subject): 토큰의 주체(사용자 ID)
+            //	•	aud (Audience): 토큰의 수신 대상
+            //	•	exp (Expiration Time): 토큰의 만료 시간
+            //	•	iat (Issued At): 토큰이 발급된 시간
+            //	•	nbf (Not Before): 특정 시간 이전에는 토큰이 유효하지 않음
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                     .subject(email)
                     .issueTime(Date.from(now))
@@ -39,10 +45,9 @@ public class TokenProvider {
             );
 
             // HMAC 서명을 사용하여 JWT 서명
-            JWSSigner signer = new MACSigner(SECURITY_KEY.getBytes());	// *서명 설정
-            signedJWT.sign(signer);
+            signedJWT.sign(new MACSigner(SECURITY_KEY.getBytes()));
 
-            return signedJWT.serialize();
+            return signedJWT.serialize(); // 직렬화된 JWT를 클라이언트에게 응답
         } catch (JOSEException e) {
             return null;
         }
