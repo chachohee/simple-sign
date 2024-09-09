@@ -32,17 +32,16 @@ function Login() {
       return;
     }
 
-    // axios를 사용해 백엔드로 로그인 데이터 전송
     axios.post('http://localhost:8080/api/auth/login', loginData)
-      .then(response => {
-        console.log(response.data);
-        alert("Login successful!");
-        // 로그인 성공 후 필요한 작업 (예: 토큰 저장, 페이지 이동 등)
-      })
-      .catch(error => {
+    .then(response => {
+        const token = response.data.data.token; // 서버 응답에서 JWT 추출
+        localStorage.setItem('jwtToken', token); // 로컬 스토리지에 저장
+        alert('Login successful!');
+    })
+    .catch(error => {
         console.error("There was an error!", error);
         alert("Login failed!");
-      });
+    });
 
     setValidated(true);
   };

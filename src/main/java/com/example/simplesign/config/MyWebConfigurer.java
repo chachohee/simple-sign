@@ -9,10 +9,10 @@ public class MyWebConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOriginPatterns();
-//                .allowedOrigins("http://localhost:3000")
-//                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//                .allowedHeaders("*")
-//                .allowCredentials(true);
+        registry.addMapping("/**")  // 모든 경로에 대해 CORS 설정
+                .allowedOriginPatterns("http://localhost:3000") // 허용할 출처
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
+                .allowedHeaders("*") // 모든 헤더 허용
+                .allowCredentials(true); // 인증 정보를 포함한 요청 허용 (필요 시 활성화)
     }
 }

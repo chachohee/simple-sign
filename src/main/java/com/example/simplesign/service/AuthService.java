@@ -58,11 +58,12 @@ public class AuthService {
             return ResponseDto.setFailed("암호화에 실패하였습니다.");
         }
 
-        userEntity.setPassword(hashedPassword);
+        userEntity.setPassword(hashedPassword); // 암호화된 비밀번호 저장
 
         // UserRepository를 이용하여 DB에 Entity 저장 (데이터 적재)
         try {
             userRepository.save(userEntity);
+            System.out.println("회원가입된 유저: " + userEntity.toString());
         } catch (Exception e) {
             return ResponseDto.setFailed("데이터베이스 연결에 실패하였습니다.");
         }
@@ -73,7 +74,7 @@ public class AuthService {
     // 로그인
     public ResponseDto<LoginResponseDto> login(LoginDto dto) {
         String email = dto.getEmail();
-        String password = dto.getPassword();
+        String password = dto.getPassword(); // 사용자가 입력한 비밀번호
         UserEntity userEntity;
 
         try {
@@ -85,7 +86,7 @@ public class AuthService {
 
             // 사용자가 입력한 비밀번호를 BCryptPasswordEncoder를 사용하여 암호화
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = userEntity.getPassword();
+            String encodedPassword = userEntity.getPassword(); // DB에 저장된 암호화된 비밀번호
 
             // 저장된 암호화된 비밀번호와 입력된 암호화된 비밀번호 비교
             if(!passwordEncoder.matches(password, encodedPassword)) {
