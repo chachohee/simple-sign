@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -7,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 
 function Login() {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
 
   const [loginData, setLoginData] = useState({
@@ -37,6 +39,7 @@ function Login() {
         const token = response.data.data.token; // 서버 응답에서 JWT 추출
         localStorage.setItem('jwtToken', token); // 로컬 스토리지에 저장
         alert('Login successful!');
+        navigate('/');
     })
     .catch(error => {
         console.error("There was an error!", error);
