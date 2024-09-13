@@ -14,7 +14,7 @@ function AppContent() {
       alert("이미 로그인 중입니다. \n로그아웃 후 이용해주세요.");
       navigate('/');
     } else {
-      navigate('/signUp2');
+      navigate('/signUp');
     }
   };
 
@@ -46,8 +46,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<AppContent />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/signUp2" element={<SignUp2 />} />
+        {/* <Route path="/signUp" element={<SignUp />} /> */}
+        <Route path="/signUp" element={<SignUp2 />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />

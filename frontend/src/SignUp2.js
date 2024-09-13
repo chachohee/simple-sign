@@ -52,7 +52,14 @@ function SignUp2() {
     axios.post('http://localhost:8080/api/auth/signUp', formData)
       .then(response => {
         console.log(response.data);
-        alert("Sign up successful!");
+        const { result } = response.data; // 백엔드에서 온 result 값 추출 
+        // const { result } = response.data; -> const result = response.data.result; 와 같음.
+
+        if (result === 'success') {
+          alert("Sign up successful!");
+        } else {
+          alert("Sign up failed!");
+        }
       })
       .catch(error => {
         console.error("There was an error!", error);
